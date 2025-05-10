@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Purchases</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Purchases for <span th:text="${customer.name}"></span></h1>
+
+    <div class="mb-3">
+        <a th:href="@{/customers}" class="btn btn-secondary">Back to Customers</a>
+    </div>
+
+    <div class="mb-3">
+        <strong>Sort by: </strong>
+        <a th:href="@{/customers/{id}/purchases(id=${customer.id}, sort='dateAsc')}" class="btn btn-outline-primary btn-sm">Date (Oldest First)</a>
+        <a th:href="@{/customers/{id}/purchases(id=${customer.id}, sort='dateDesc')}" class="btn btn-outline-primary btn-sm">Date (Newest First)</a>
+        <a th:href="@{/customers/{id}/purchases(id=${customer.id}, sort='totalAsc')}" class="btn btn-outline-primary btn-sm">Total (Low to High)</a>
+        <a th:href="@{/customers/{id}/purchases(id=${customer.id}, sort='totalDesc')}" class="btn btn-outline-primary btn-sm">Total (High to Low)</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Store</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            <th>Purchase Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="purchase : ${purchases}">
+            <td th:text="${purchase.id}"></td>
+            <td th:text="${purchase.product.name}"></td>
+            <td th:text="${purchase.store.name}"></td>
+            <td th:text="${purchase.quantity}"></td>
+            <td th:text="${#numbers.formatCurrency(purchase.product.price)}"></td>
+            <td th:text="${#numbers.formatCurrency(purchase.product.price * purchase.quantity)}"></td>
+            <td th:text="${#temporals.format(purchase.purchaseDate, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${purchases.empty}" class="alert alert-info">
+        This customer hasn't made any purchases yet.
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

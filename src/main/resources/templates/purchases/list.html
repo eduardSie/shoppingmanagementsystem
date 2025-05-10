@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Purchases</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Purchases</h1>
+
+  <div class="mb-3">
+    <a th:href="@{/}" class="btn btn-secondary">Back to Home</a>
+    <a th:href="@{/purchases/new}" class="btn btn-primary">Record New Purchase</a>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Customer</th>
+      <th>Product</th>
+      <th>Store</th>
+      <th>Quantity</th>
+      <th>Total</th>
+      <th>Purchase Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="purchase : ${purchases}">
+      <td th:text="${purchase.id}"></td>
+      <td th:text="${purchase.customer.name}"></td>
+      <td th:text="${purchase.product.name}"></td>
+      <td th:text="${purchase.store.name}"></td>
+      <td th:text="${purchase.quantity}"></td>
+      <td th:text="${#numbers.formatCurrency(purchase.product.price * purchase.quantity)}"></td>
+      <td th:text="${#temporals.format(purchase.purchaseDate, 'yyyy-MM-dd HH:mm')}"></td>
+      <td>
+        <a th:href="@{/purchases/delete/{id}(id=${purchase.id})}" class="btn btn-danger btn-sm"
+           onclick="return confirm('Are you sure you want to delete this purchase record?')">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

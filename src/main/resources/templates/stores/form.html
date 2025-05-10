@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="${store.id} ? 'Edit Store' : 'Add New Store'"></h1>
+
+    <form th:action="@{/stores}" th:object="${store}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="location" th:field="*{location}" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a th:href="@{/stores}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
